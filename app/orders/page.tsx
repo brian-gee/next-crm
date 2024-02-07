@@ -9,7 +9,12 @@ export default function Page() {
         <h1 className="mb-10 text-6xl font-bold text-center">Orders</h1>
       </div>
       <div className="p-10">
-        <DataTable columns={columns} data={payments} />
+        <DataTable
+          columns={columns}
+          data={payments}
+          searchText="Search orders..."
+          searchColumn="clientName"
+        />
       </div>
     </main>
   );

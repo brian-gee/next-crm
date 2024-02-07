@@ -13,9 +13,20 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import type { Payment } from "./data";
 
-export const columns: ColumnDef<Payment>[] = [
+type Client = {
+  id: string;
+  first_name: string;
+  last_name: string;
+  phone: string;
+  email: string;
+  address: string;
+  city: string;
+  zip: string;
+  company: string;
+};
+
+export const columns: ColumnDef<Client>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -39,41 +50,45 @@ export const columns: ColumnDef<Payment>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "status",
-    header: "Status",
+    accessorKey: "first_name",
+    header: "First Name",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("status")}</div>
+      <div className="capitalize">{row.getValue("first_name")}</div>
     ),
   },
   {
-    accessorKey: "email",
+    accessorKey: "last_name",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Email
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          Last Name
+          <ArrowUpDown className="w-4 h-4 ml-2" />
         </Button>
       );
     },
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue("last_name")}</div>
+    ),
+  },
+  {
+    accessorKey: "email",
+    header: "Email",
     cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
   },
   {
-    accessorKey: "amount",
-    header: () => <div className="text-right">Amount</div>,
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"));
-
-      // Format the amount as a dollar amount
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount);
-
-      return <div className="text-right font-medium">{formatted}</div>;
-    },
+    accessorKey: "phone",
+    header: "Phone",
+    cell: ({ row }) => (
+      <div className="lowercase">
+        {(row.getValue("phone") as string).replace(
+          /(\d{3})(\d{3})(\d{4})/,
+          "($1) $2-$3"
+        )}
+      </div>
+    ),
   },
   {
     id: "actions",
@@ -84,9 +99,9 @@ export const columns: ColumnDef<Payment>[] = [
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
+            <Button variant="ghost" className="w-8 h-8 p-0">
               <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
+              <MoreHorizontal className="w-4 h-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">

@@ -15,16 +15,16 @@ export default function Header() {
           <div>
             <a
               href="/"
-              aria-label="Flavia's Sweets"
-              title="Flavia's Sweets"
+              aria-label="Next CRM"
+              title="Next CRM"
               className="inline-flex items-center"
             >
               <span className="ml-2 text-3xl font-bold tracking-wide hover:text-primary">
-                Flavia's Sweets
+                Next CRM
               </span>
             </a>
           </div>
-          <div className="hidden sm:flex items-center space-x-4">
+          <div className="items-center hidden space-x-4 sm:flex">
             <ul className="flex space-x-4 text-lg font-bold">
               {navItems.map((item) => (
                 <li key={item.text}>
@@ -45,7 +45,7 @@ export default function Header() {
         {/* Mobile menu */}
         <div
           id="mobileMenu"
-          className="fixed top-0 left-0 z-10 hidden h-full w-full bg-white bg-opacity-90 backdrop-blur-sm sm:hidden"
+          className="fixed top-0 left-0 z-10 hidden w-full h-full bg-white bg-opacity-90 backdrop-blur-sm sm:hidden"
         >
           <ul className="flex flex-col items-center justify-center h-full space-y-8">
             {navItems.map((item) => (
