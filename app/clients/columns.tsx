@@ -4,7 +4,6 @@ import * as React from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,6 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { DeleteClientAlert } from "./actions/deleteClient";
 
 type Client = {
   id: string;
@@ -27,28 +27,6 @@ type Client = {
 };
 
 export const columns: ColumnDef<Client>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
   {
     accessorKey: "first_name",
     header: "First Name",
@@ -65,7 +43,7 @@ export const columns: ColumnDef<Client>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Last Name
-          <ArrowUpDown className="w-4 h-4 ml-2" />
+          <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
@@ -85,7 +63,7 @@ export const columns: ColumnDef<Client>[] = [
       <div className="lowercase">
         {(row.getValue("phone") as string).replace(
           /(\d{3})(\d{3})(\d{4})/,
-          "($1) $2-$3"
+          "($1) $2-$3",
         )}
       </div>
     ),
@@ -94,28 +72,43 @@ export const columns: ColumnDef<Client>[] = [
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const payment = row.original;
+      const client = row.original;
+      const [deleteAlertIsOpen, setDeleteAlertIsOpen] = React.useState(false);
 
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="w-8 h-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="w-4 h-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
-            >
-              Copy payment ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                onClick={() => navigator.clipboard.writeText(client.email)}
+              >
+                Copy email
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => navigator.clipboard.writeText(client.phone)}
+              >
+                Copy phone
+              </DropdownMenuItem>
+              <DropdownMenuItem>View client info</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setDeleteAlertIsOpen(true)}>
+                Delete client
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <DeleteClientAlert
+            open={deleteAlertIsOpen}
+            onClose={() => setDeleteAlertIsOpen(false)}
+            id={client.id}
+          />
+        </div>
       );
     },
   },
