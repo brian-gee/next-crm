@@ -7,16 +7,16 @@ interface Props {
 const Card: React.FC<Props> = ({ href, title, body }) => {
   return (
     <main>
-      <li className="list-none flex p-0.5 bg-[#23262d] rounded-lg transition-all duration-600 ease-[cubic-bezier(0.22,1,0.36,1)] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.1)]">
+      <li className="flex list-none rounded-lg bg-gray-800 p-0.5 shadow-inner">
         <a
-          className="w-full no-underline text-white bg-[#23262d] opacity-80 rounded-lg p-[calc(1.5rem-1px)] cursor-pointer"
+          className="opaity-80 w-full cursor-pointer rounded-lg bg-gray-800 p-6 text-white hover:opacity-100 focus:opacity-100"
           href={href}
         >
-          <h2 className="m-0 text-1.25rem transition-colors duration-600 ease-[cubic-bezier(0.22,1,0.36,1)]">
+          <h2 className="m-0 text-xl">
             {title}
-            <span>&rarr;</span>
+            <span> →</span>
           </h2>
-          <p className="mt-2 mb-0">{body}</p>
+          <p className="mb-0 mt-2">{body}</p>
         </a>
       </li>
     </main>
