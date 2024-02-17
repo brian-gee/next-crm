@@ -24,7 +24,7 @@ const useClerkSWR = (url: string) => {
 };
 
 export default function Page() {
-  const { data, error, mutate } = useClerkSWR(hostAddress + "/clients");
+  const { data, error, mutate } = useClerkSWR(`${hostAddress}/clients`);
 
   if (error) return <div>Failed to load</div>;
   const isLoading = !data && !error;

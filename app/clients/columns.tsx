@@ -12,7 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { DeleteClientAlert } from "./actions/deleteClient";
+import { DeleteClientAlert } from "./dialogs/deleteClient";
 
 type Client = {
   id: string;
@@ -107,6 +107,7 @@ export const columns: ColumnDef<Client>[] = [
             open={deleteAlertIsOpen}
             onClose={() => setDeleteAlertIsOpen(false)}
             id={client.id}
+            name={`${client.first_name} ${client.last_name}`}
           />
         </div>
       );

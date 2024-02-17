@@ -17,6 +17,7 @@ interface DeleteClientAlertProps {
   open: boolean;
   onClose: () => void;
   id: string;
+  name: string;
 }
 
 const deleteClientById = async (id: string, token: string) => {
@@ -37,6 +38,7 @@ export function DeleteClientAlert({
   open,
   onClose,
   id,
+  name,
 }: DeleteClientAlertProps) {
   const { getToken } = useAuth();
   const { mutate } = useContext(DataContext);
@@ -44,12 +46,15 @@ export function DeleteClientAlert({
   const handleDelete = async () => {
     try {
       const token = await getToken();
+      if (token === null) {
+        console.error("Authentication token is not available.");
+        return;
+      }
       await deleteClientById(id, token);
       mutate();
-      onClose(); // Close the alert dialog on successful deletion
+      onClose();
     } catch (error) {
       console.error("Failed to delete client:", error);
-      // Handle the error appropriately
     }
   };
 
@@ -58,7 +63,7 @@ export function DeleteClientAlert({
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
-            Are you sure you want to delete NAME?
+            Are you sure you want to delete {name}
           </AlertDialogTitle>
           <AlertDialogDescription>
             This action cannot be undone. This will permanently delete the
