@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { DeleteClientAlert } from "./dialogs/deleteClient";
+import { ViewClientAlert } from "./dialogs/viewClient";
 
 type Client = {
   id: string;
@@ -74,6 +75,7 @@ export const columns: ColumnDef<Client>[] = [
     cell: ({ row }) => {
       const client = row.original;
       const [deleteAlertIsOpen, setDeleteAlertIsOpen] = React.useState(false);
+      const [viewAlertIsOpen, setViewAlertIsOpen] = React.useState(false);
 
       return (
         <div>
@@ -97,7 +99,9 @@ export const columns: ColumnDef<Client>[] = [
               >
                 Copy phone
               </DropdownMenuItem>
-              <DropdownMenuItem>View client info</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setViewAlertIsOpen(true)}>
+                View client
+              </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setDeleteAlertIsOpen(true)}>
                 Delete client
               </DropdownMenuItem>
@@ -108,6 +112,19 @@ export const columns: ColumnDef<Client>[] = [
             onClose={() => setDeleteAlertIsOpen(false)}
             id={client.id}
             name={`${client.first_name} ${client.last_name}`}
+          />
+          <ViewClientAlert
+            open={viewAlertIsOpen}
+            onClose={() => setViewAlertIsOpen(false)}
+            id={client.id}
+            name={`${client.first_name} ${client.last_name}`}
+            email={client.email}
+            phone={(client.phone as string).replace(
+              /(\d{3})(\d{3})(\d{4})/,
+              "($1) $2-$3",
+            )}
+            address={`${client.address} ${client.city}, ${client.zip}`}
+            company={client.company}
           />
         </div>
       );

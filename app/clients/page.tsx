@@ -5,7 +5,7 @@ import { useAuth } from "@clerk/nextjs";
 import { DataTable } from "./data-table";
 import { columns } from "./columns";
 const hostAddress = process.env.NEXT_PUBLIC_HOST_ADDRESS || "";
-import DataContext from "./dataContext";
+import DataContext from "../../lib/dataContext";
 
 const useClerkSWR = (url: string) => {
   const { getToken } = useAuth();

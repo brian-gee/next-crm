@@ -15,7 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@clerk/nextjs";
-import DataContext from "../dataContext";
+import DataContext from "../../../lib/dataContext";
 const hostAddress = process.env.NEXT_PUBLIC_HOST_ADDRESS || "";
 
 export function AddClient() {

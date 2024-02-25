@@ -13,11 +13,15 @@ import { useAuth } from "@clerk/nextjs";
 import { useContext } from "react";
 import DataContext from "../../../lib/dataContext";
 
-interface DeleteClientAlertProps {
+interface ViewClientAlertProps {
   open: boolean;
   onClose: () => void;
   id: string;
   name: string;
+  email: string;
+  phone: string;
+  address: string;
+  company: string;
 }
 
 const deleteClientById = async (id: string, token: string) => {
@@ -34,12 +38,16 @@ const deleteClientById = async (id: string, token: string) => {
   }
 };
 
-export function DeleteClientAlert({
+export function ViewClientAlert({
   open,
   onClose,
   id,
   name,
-}: DeleteClientAlertProps) {
+  email,
+  phone,
+  address,
+  company,
+}: ViewClientAlertProps) {
   const { getToken } = useAuth();
   const { mutate } = useContext(DataContext);
 
@@ -62,17 +70,14 @@ export function DeleteClientAlert({
     <AlertDialog open={open} onOpenChange={onClose}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>
-            Are you sure you want to delete {name}
-          </AlertDialogTitle>
-          <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete the
-            client and any orders associated with them.
-          </AlertDialogDescription>
+          <AlertDialogTitle>{name}</AlertDialogTitle>
+          <h1>{email}</h1>
+          <h1>{phone}</h1>
+          <h1>{address}</h1>
+          <h1>{company}</h1>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={onClose}>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete}>Continue</AlertDialogAction>
+          <AlertDialogAction onClick={onClose}>Close</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
