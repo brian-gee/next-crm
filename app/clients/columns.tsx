@@ -102,6 +102,7 @@ export const columns: ColumnDef<Client>[] = [
               <DropdownMenuItem onClick={() => setViewAlertIsOpen(true)}>
                 View client
               </DropdownMenuItem>
+              <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => setDeleteAlertIsOpen(true)}>
                 Delete client
               </DropdownMenuItem>

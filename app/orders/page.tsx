@@ -42,8 +42,8 @@ export default function Page() {
             <DataTable
               columns={columns}
               data={data}
-              searchText="Search clients..."
-              searchColumn="status"
+              searchText="Search orders..."
+              searchColumn="name"
             />
           </DataContext.Provider>
         )}
